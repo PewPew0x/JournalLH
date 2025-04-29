@@ -1,0 +1,25 @@
+name: HL Journal Import
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # every hour on the hour
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Python & dependencies
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - run: pip install hyperliquid-python-sdk gspread oauth2client pandas
+
+      - name: Write service account key
+        run: |
+          echo "${{ secrets.SA_JSON }}" > service_account.json
+
+      - name: Run journal import
+        run: python import_journal.py
