@@ -1,8 +1,9 @@
 name: HL Journal Import
 
 on:
+  workflow_dispatch:      # <-- allows you to click “Run workflow”
   schedule:
-    - cron: '0 * * * *'  # every hour on the hour
+    - cron: '0 * * * *' # every hour on the hour
 
 jobs:
   import:
