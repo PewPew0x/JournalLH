@@ -3,7 +3,7 @@ name: HL Journal Import
 on:
   workflow_dispatch:      # Enables the “Run workflow” button
   schedule:
-    - cron: '0 * * * *'   # Runs at minute 0 of every hour
+    - cron: '0 * * * *'   # Runs at minute 0 each hour
 
 jobs:
   import:
@@ -24,10 +24,11 @@ jobs:
       - name: Write service account key
         run: |
           cat << 'EOF' > service_account.json
-${{ secrets.SA_JSON }}
-EOF
+          ${{ secrets.SA_JSON }}
+          EOF
 
       - name: Run journal import
         run: |
           python import_journal.py
+
 
