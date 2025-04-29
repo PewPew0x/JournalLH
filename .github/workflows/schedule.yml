@@ -1,9 +1,9 @@
 name: HL Journal Import
 
 on:
-  workflow_dispatch:      # <-- allows you to click “Run workflow”
+  workflow_dispatch:      # Enables the “Run workflow” button
   schedule:
-    - cron: '0 * * * *' # every hour on the hour
+    - cron: '0 * * * *'   # Runs at minute 0 of every hour
 
 jobs:
   import:
@@ -12,17 +12,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Python & dependencies
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-      - run: pip install hyperliquid-python-sdk gspread oauth2client pandas
+
+      - name: Install dependencies
+        run: |
+          pip install hyperliquid-python-sdk gspread oauth2client pandas
 
       - name: Write service account key
-  run: |
-    cat << 'EOF' > service_account.json
+        run: |
+          cat << 'EOF' > service_account.json
 ${{ secrets.SA_JSON }}
 EOF
 
       - name: Run journal import
-        run: python import_journal.py
+        run: |
+          python import_journal.py
+
